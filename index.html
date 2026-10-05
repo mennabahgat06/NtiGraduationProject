@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Menna Bahgat - Flutter projects: source code, demo videos and APK downloads." />
+  <meta name="author" content="Menna Bahgat" />
+  <title>Menna Bahgat | Projects</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script>
+    /* Pick the theme before the page paints (saved choice, else the system setting). */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <style>
+    :root {
+      --gradient-primary: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #6366f1 100%);
+      --accent: #38bdf8;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+      --radius: 20px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    [data-theme="dark"] {
+      --bg: #0a0f1d;
+      --card: #141d2e;
+      --card-hover: #1a2539;
+      --text: #f1f5f9;
+      --text-2: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-2: rgba(255, 255, 255, 0.16);
+      --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+      --glow: rgba(14, 165, 233, 0.16);
+      --nav: rgba(10, 15, 29, 0.8);
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --card-hover: #f8fbff;
+      --text: #0f172a;
+      --text-2: #475569;
+      --border: rgba(15, 23, 42, 0.08);
+      --border-2: rgba(15, 23, 42, 0.16);
+      --shadow: 0 20px 40px -16px rgba(15, 23, 42, 0.18);
+      --glow: rgba(14, 165, 233, 0.12);
+      --nav: rgba(248, 250, 252, 0.85);
+      --accent: #0284c7;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s var(--ease), color 0.3s var(--ease);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+    /* Soft background glows (same mood as the main portfolio) */
+    .glow { position: fixed; z-index: -1; width: 620px; height: 620px; border-radius: 50%;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%); pointer-events: none; }
+    .glow-1 { top: -220px; left: -200px; }
+    .glow-2 { bottom: -260px; right: -220px; }
+
+    /* Navbar */
+    .navbar { position: sticky; top: 0; z-index: 10; background: var(--nav);
+              backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-in { height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; }
+    .logo .sym, .logo .acc { color: var(--accent); }
+    .icon-btn { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--card);
+                color: var(--text); cursor: pointer; font-size: 1rem; display: grid; place-items: center;
+                transition: transform 0.2s var(--ease), border-color 0.2s var(--ease); }
+    .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    [data-theme="dark"] .icon-btn .fa-moon, [data-theme="light"] .icon-btn .fa-sun { display: none; }
+
+    /* Thanks */
+    .thanks { margin-top: 28px; display: flex; align-items: center; gap: 16px; padding: 18px 22px;
+              border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); position: relative; overflow: hidden; }
+    .thanks::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--gradient-primary); }
+    .thanks-icon { flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+                   background: var(--gradient-primary); color: #fff; font-size: 1.2rem; }
+    .thanks p { margin: 0; }
+    .thanks .t1 { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; font-family: var(--font-mono); }
+    .thanks .t2 { font-size: 1.12rem; font-weight: 700; }
+    .thanks .t3 { color: var(--text-2); font-size: 0.95rem; }
+
+    /* Profile */
+    .profile { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 48px 0 12px; }
+    .avatar { width: 136px; height: 136px; border-radius: 50%; padding: 4px; background: var(--gradient-primary); box-shadow: 0 0 40px var(--glow); }
+    .avatar { position: relative; }
+    .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 22%; display: block; border: 4px solid var(--bg); background: var(--card); }
+    .initials { display: none; }
+    .avatar.no-img .initials { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg);
+                               background: var(--card); font-family: var(--font-mono); font-weight: 700; font-size: 2.4rem; color: var(--accent); }
+    .cv-btn { margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px; border-radius: 999px;
+              background: var(--gradient-primary); color: #fff; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(14, 165, 233, 0.7);
+              transition: transform 0.2s var(--ease), filter 0.2s var(--ease); }
+    .cv-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .name { margin: 18px 0 4px; font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+    .role { margin: 0; font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem;
+            background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
+    .soc { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 1.1rem;
+           border: 1px solid var(--border-2); background: var(--card); color: var(--text-2);
+           transition: all 0.25s var(--ease); }
+    .soc:hover { color: #fff; background: var(--gradient-primary); border-color: transparent; transform: translateY(-3px); }
+
+    /* Section title */
+    .head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 56px 0 22px; flex-wrap: wrap; }
+    .eyebrow { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .head h2 { margin: 2px 0 0; font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; }
+    .count { font-family: var(--font-mono); color: var(--text-2); font-size: 0.95rem; }
+
+    /* Project cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card { border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); overflow: hidden;
+            display: flex; flex-direction: column; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease); }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--border-2); }
+    .thumb { position: relative; height: 150px; display: grid; place-items: center; overflow: hidden;
+             background: linear-gradient(135deg, var(--c1), var(--c2)); }
+    .thumb::before, .thumb::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.12); }
+    .thumb::before { width: 220px; height: 220px; right: -70px; top: -90px; }
+    .thumb::after { width: 140px; height: 140px; left: -40px; bottom: -70px; }
+    .thumb i { position: relative; z-index: 1; font-size: 3.4rem; color: #fff; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+               transition: transform 0.4s var(--ease); }
+    .card:hover .thumb i { transform: scale(1.1) rotate(-6deg); }
+    .num { position: absolute; z-index: 1; top: 12px; left: 14px; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;
+           color: rgba(255, 255, 255, 0.9); background: rgba(0, 0, 0, 0.18); padding: 2px 10px; border-radius: 999px; }
+    .card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+    .card h3 { margin: 0; font-size: 1.25rem; font-weight: 700; }
+    .kind { margin: 2px 0 16px; color: var(--text-2); font-size: 0.92rem; }
+    .actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+    .act { flex: 1 1 0; min-width: 84px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+           padding: 10px 12px; border-radius: 12px; font-weight: 600; font-size: 0.9rem;
+           border: 1px solid var(--border-2); color: var(--text); transition: all 0.2s var(--ease); }
+    .act:hover { border-color: var(--c1); color: var(--c1); }
+    .act-main { background: linear-gradient(135deg, var(--c1), var(--c2)); color: #fff; border-color: transparent; }
+    .act-main:hover { color: #fff; filter: brightness(1.08); box-shadow: 0 8px 20px -8px var(--c1); }
+
+    /* All links */
+    .all { margin: 56px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .all a { display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: var(--radius);
+             border: 1px solid var(--border); background: var(--card); transition: all 0.25s var(--ease); }
+    .all a:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow); }
+    .all .ic { flex: none; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 1.4rem; color: #fff; }
+    .all .gh { background: #24292f; }
+    .all .dr { background: linear-gradient(135deg, #0F9D58, #4285F4); }
+    .all b { display: block; font-size: 1.05rem; }
+    .all span { color: var(--text-2); font-size: 0.9rem; }
+    .all .go { margin-left: auto; color: var(--text-2); }
+
+    footer { margin-top: 64px; padding: 24px 0 32px; border-top: 1px solid var(--border); text-align: center; color: var(--text-2); font-size: 0.9rem; }
+
+    /* Entrance animation */
+    .rise { opacity: 0; transform: translateY(18px); animation: rise 0.6s var(--ease) forwards; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .rise { animation: none; opacity: 1; transform: none; }
+      * { transition: none !important; }
+    }
+
+    @media (max-width: 600px) {
+      .thanks { padding: 16px; gap: 12px; }
+      .thanks-icon { width: 42px; height: 42px; }
+      .grid { grid-template-columns: 1fr; }
+      .profile { padding-top: 36px; }
+      .head { margin-top: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <header class="navbar">
+    <div class="container nav-in">
+      <a href="#" class="logo"><span class="sym">&lt;</span>Menna<span class="acc">.dev</span><span class="sym">/&gt;</span></a>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark / light theme" title="Toggle theme">
+        <i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="thanks rise" aria-label="Acknowledgement">
+      <div class="thanks-icon"><i class="fa-solid fa-hands-clapping"></i></div>
+      <div>
+        <p class="t1">Special Thanks</p>
+        <p class="t2">Eng. Ahmed Saber</p>
+        <p class="t3">Instructor · NTI 9 — Zagazig</p>
+      </div>
+    </section>
+
+    <section class="profile rise" style="animation-delay: 0.08s">
+      <div class="avatar">
+        <img src="https://raw.githubusercontent.com/mennabahgat06/myportomannona/main/profile.png" alt="Menna Bahgat" width="136" height="136"
+             onerror="this.style.display='none';this.parentNode.classList.add('no-img')" />
+        <span class="initials">MB</span>
+      </div>
+      <h1 class="name">Menna Bahgat</h1>
+      <p class="role">Flutter Developer</p>
+      <nav class="socials" aria-label="Accounts">
+          <a class="soc" href="https://github.com/menna17bahgat" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="soc" href="https://www.linkedin.com/in/mennabahgat06/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="soc" href="https://wa.link/u8swuk" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a class="soc" href="mailto:mennabahgat06@gmail.com" aria-label="Email" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a class="soc" href="tel:+201500422619" aria-label="Phone" title="Phone"><i class="fa-solid fa-phone"></i></a>
+      </nav>
+      <a class="cv-btn" href="https://raw.githubusercontent.com/mennabahgat06/myportomannona/main/Menna_Bahgat_CV.pdf" download="Menna_Bahgat_CV.pdf" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-file-arrow-down"></i><span>Download CV</span></a>
+    </section>
+
+    <section id="projects" class="rise" style="animation-delay: 0.16s">
+      <div class="head">
+        <div>
+          <p class="eyebrow">Portfolio</p>
+          <h2>Projects</h2>
+        </div>
+        <span class="count">5 apps</span>
+      </div>
+      <div class="grid">
+      <article class="card" style="--c1:#F97316;--c2:#E11D48">
+        <div class="thumb"><span class="num">01</span><i class="fa-solid fa-burger"></i></div>
+        <div class="card-body">
+          <h3>YumQuick</h3>
+          <p class="kind">Restaurant App</p>
+          <div class="actions">
+            <a class="act" href="https://github.com/mennabahgat06/yumquick_app" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>Code</span></a>
+            <a class="act" href="https://drive.google.com/uc?export=download&id=1R3ob9C-7JDtu4XrYn-el2Ev-3PnKtPe4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-circle-play"></i><span>Video</span></a>
+            <a class="act act-main" href="https://drive.google.com/uc?export=download&id=1sL9TkORpDk3YjW05WYzRv8SXomzMSmoo" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-android"></i><span>APK</span></a>
+          </div>
+        </div>
+      </article>
+      <article class="card" style="--c1:#2563EB;--c2:#06B6D4">
+        <div class="thumb"><span class="num">02</span><i class="fa-solid fa-newspaper"></i></div>
+        <div class="card-body">
+          <h3>Mannona News</h3>
+          <p class="kind">News App</p>
+          <div class="actions">
+            <a class="act" href="https://github.com/mennabahgat06/mannona-trial-news" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>Code</span></a>
+            <a class="act" href="https://drive.google.com/uc?export=download&id=1b8pc57p7_XCcF59oAurS_zmo9JlPGVzp" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-circle-play"></i><span>Video</span></a>
+            <a class="act act-main" href="https://drive.google.com/uc?export=download&id=1M_F2F7TxEGDRk72h6FM1BA6_11u2ue3q" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-android"></i><span>APK</span></a>
+          </div>
+        </div>
+      </article>
+      <article class="card" style="--c1:#16A34A;--c2:#84CC16">
+        <div class="thumb"><span class="num">03</span><i class="fa-solid fa-list-check"></i></div>
+        <div class="card-body">
+          <h3>NTI To-Do</h3>
+          <p class="kind">Task Manager App</p>
+          <div class="actions">
+            <a class="act" href="https://github.com/mennabahgat06/nti_todo_app" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>Code</span></a>
+            <a class="act" href="https://drive.google.com/uc?export=download&id=1LCmT-zbMIsUHg_Ys4l8NMImB2K8qagLn" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-circle-play"></i><span>Video</span></a>
+            <a class="act act-main" href="https://drive.google.com/uc?export=download&id=1WxsIuoCDylifeiGK5xStpL0hsiqleMMD" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-android"></i><span>APK</span></a>
+          </div>
+        </div>
+      </article>
+      <article class="card" style="--c1:#F83758;--c2:#A855F7">
+        <div class="thumb"><span class="num">04</span><i class="fa-solid fa-shirt"></i></div>
+        <div class="card-body">
+          <h3>Stylish</h3>
+          <p class="kind">Fashion Store App</p>
+          <div class="actions">
+            <a class="act" href="https://github.com/mennabahgat06/stylish_app" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>Code</span></a>
+            
+            <a class="act act-main" href="https://drive.google.com/uc?export=download&id=1uV6JgHyvKrwb16wyu2WqmcnvxWEyttcQ" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-android"></i><span>APK</span></a>
+          </div>
+        </div>
+      </article>
+      <article class="card" style="--c1:#6C63FF;--c2:#0EA5E9">
+        <div class="thumb"><span class="num">05</span><i class="fa-solid fa-cart-shopping"></i></div>
+        <div class="card-body">
+          <h3>NTI E-Commerce</h3>
+          <p class="kind">Shopping App</p>
+          <div class="actions">
+            <a class="act" href="https://github.com/mennabahgat06/nti-trial-ecommerce" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i><span>Code</span></a>
+            
+            <a class="act act-main" href="https://drive.google.com/uc?export=download&id=1VVdU8TEo5l-ie0bmp_158vGgxgJycgpB" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-android"></i><span>APK</span></a>
+          </div>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section class="all rise" style="animation-delay: 0.24s" aria-label="All projects and files">
+      <a href="https://github.com/mennabahgat06?tab=repositories" target="_blank" rel="noopener noreferrer">
+        <div class="ic gh"><i class="fa-brands fa-github"></i></div>
+        <div><b>All Repositories</b><span>github.com/mennabahgat06</span></div>
+        <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+      </a>
+      <a href="https://drive.google.com/drive/folders/1hwM5fMcVossG5Lb9YYPytKyA5IJHonK2" target="_blank" rel="noopener noreferrer">
+        <div class="ic dr"><i class="fa-brands fa-google-drive"></i></div>
+        <div><b>All Files</b><span>Videos &amp; APKs on Google Drive</span></div>
+        <i class="fa-solid fa-arrow-up-right-from-square go"></i>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">&copy; <span id="year">2026</span> Menna Bahgat</div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
